@@ -1,0 +1,25 @@
+.black{
+  background-color: black;
+  color: white;
+}
+.white{
+  background-color: white;
+  color: black;
+}
+
+.sachovnice{
+  display: grid;
+  background-color: blue;
+}
+.tile {
+  width: 20px;
+  height: 20px;
+  border-color: blue;
+  border: 3px;
+}
+/*
+#sachovnice {grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+   height: 160px;
+   width:  160px;}
+*/
