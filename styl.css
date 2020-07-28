@@ -17,7 +17,10 @@
   border-color: blue;
   border: 3px;
   text-align: center;
-  vertical-align: middle; 
+  vertical-align: middle;
+}
+.tile p{
+  margin: 0px 0px 0px 0px;
 }
 /*
 #sachovnice {grid-template-columns: repeat(8, 1fr);
@@ -25,3 +28,19 @@
    height: 160px;
    width:  160px;}
 */
+.kamen{
+  border-radius: 100%;
+  border-width: 5px;
+  border-color: blue;
+  width: 72px;
+  height: 72px;
+  z-index: 2;
+  background-color: red;
+}
+.cerny{
+ background-color: gray;
+}
+.bily{
+  background-color: white;
+  z-index: 3;
+}

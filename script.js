@@ -10,11 +10,30 @@ function generuj(){
   glo_y = y;
 
   var tile_size = 90;
+  var pomer = 7/10;
+  var kamen_size = Math.round(tile_size*pomer);
+  var posun_kamen = Math.round(tile_size*(1-pomer)/2);
   var sach_size_x = tile_size*x;
   var sach_size_y = tile_size*y;
   document.head.removeChild(document.head.childNodes[document.head.childNodes.length-1]);
   var style = document.createElement('style');
-  style.innerHTML = '#sachovnice {display: grid; grid-template-columns: repeat('+ x +', 1fr);grid-template-rows: repeat('+ y +', 1fr);  height: ' + sach_size_y + 'px;  width: '+sach_size_x+'px;} .tile { width: ' + tile_size.toString() + 'px; height: ' + tile_size.toString() +'px; border-color: blue; border: 3px; text-align: center; vertical-align: middle;}';
+  var muj_text = '#sachovnice {display: grid; grid-template-columns: repeat('+ x +', 1fr);grid-template-rows: repeat('+ y +', 1fr);  height: ' + sach_size_y + 'px;  width: '+sach_size_x+'px;} .tile { width: ' + tile_size.toString() + 'px; height: ' + tile_size.toString() +'px; border: 2px solid blue; text-align: center; vertical-align: middle;} .kamen{ border-radius: 100%;  border: 1px solid blue; width: ' + kamen_size.toString() + 'px;  height: ' + kamen_size.toString() + 'px;}';
+  muj_text = muj_text + `
+  .cerny{
+   position: relative;
+   left: ` + posun_kamen.toString()+`px;
+   background-color: gray;
+
+  }
+  .bily{
+    position: relative;
+    left: ` + (posun_kamen).toString()+`px;
+    bottom: `+ (kamen_size+2).toString() + `px;
+    background-color: white;
+    z-index: 3;
+  }
+   `;
+  style.innerHTML = muj_text;
   document.head.appendChild(style);
   console.log(x,y,v);
   var text = "";
@@ -22,18 +41,18 @@ function generuj(){
     for (var j = 1; j < y+1; j++) {
       if (i%2==0) {
         if (j%2==0) {
-          text = '<div class="tile black" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +' / ' + (i+1) + ';grid-row:' + j +' / ' + (j+1) + ';" >x'+ (i-1) +'&nbsp;y'+(j-1)+'</div>';
+          text = '<div class="tile black" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +' / ' + (i+1) + ';grid-row:' + j +' / ' + (j+1) + ';" > <p>x'+ (i-1) +'&nbsp;y'+(j-1)+'</p><p class="kamen cerny"></p><p class="kamen bily"></p></div>';
         }
         else {
-          text = '<div class="tile white" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +' / ' + (i+1) + ';grid-row:' + j +' / ' + (j+1) + ';" >x'+(i-1)+'&nbsp;y'+(j-1)+'</div>';
+          text = '<div class="tile white" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +' / ' + (i+1) + ';grid-row:' + j +' / ' + (j+1) + ';" ><p>x'+ (i-1) +'&nbsp;y'+(j-1)+'</p><p class="kamen cerny"></p><p class="kamen bily"></p></div>';
         }
       }
       else {
         if (j%2==0) {
-          text = '<div class="tile white" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +'/' + (i+1) + ';grid-row:' + j +'/' + (j+1) + ';">x'+(i-1)+'&nbsp;y'+(j-1)+'</div>';
+          text = '<div class="tile white" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +'/' + (i+1) + ';grid-row:' + j +'/' + (j+1) + ';"><p>x'+ (i-1) +'&nbsp;y'+(j-1)+'</p><p class="kamen cerny"></p><p class="kamen bily"></p></div>';
         }
         else {
-          text = '<div class="tile black" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +'/' + (i+1) + ';grid-row:' + j +'/' + (j+1) + ';">x'+(i-1)+'&nbsp;y'+(j-1)+'</div>';
+          text = '<div class="tile black" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +'/' + (i+1) + ';grid-row:' + j +'/' + (j+1) + ';"><p>x'+ (i-1) +'&nbsp;y'+(j-1)+'</p><p class="kamen cerny"></p><p class="kamen bily"></p></div>';
         }
       }
         document.getElementById('sachovnice').innerHTML = document.getElementById('sachovnice').innerHTML + text;
