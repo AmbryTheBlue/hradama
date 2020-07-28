@@ -12,9 +12,9 @@ function generuj(){
   var tile_size = 90;
   var sach_size_x = tile_size*x;
   var sach_size_y = tile_size*y;
-
+  document.head.removeChild(document.head.childNodes[document.head.childNodes.length-1]);
   var style = document.createElement('style');
-  style.innerHTML = '#sachovnice {display: grid; grid-template-columns: repeat('+ x +', 1fr);grid-template-rows: repeat('+ y +', 1fr);  height: ' + sach_size_y + 'px;  width: '+sach_size_x+'px;}';
+  style.innerHTML = '#sachovnice {display: grid; grid-template-columns: repeat('+ x +', 1fr);grid-template-rows: repeat('+ y +', 1fr);  height: ' + sach_size_y + 'px;  width: '+sach_size_x+'px;} .tile { width: ' + tile_size.toString() + 'px; height: ' + tile_size.toString() +'px; border-color: blue; border: 3px; text-align: center; vertical-align: middle;}';
   document.head.appendChild(style);
   console.log(x,y,v);
   var text = "";

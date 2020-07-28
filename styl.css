@@ -7,15 +7,17 @@
   color: black;
 }
 
-.sachovnice{
+#sachovnice{
   display: grid;
   background-color: blue;
 }
 .tile {
-  width: 20px;
-  height: 20px;
+  width: 90px;
+  height: 90px;
   border-color: blue;
   border: 3px;
+  text-align: center;
+  vertical-align: middle; 
 }
 /*
 #sachovnice {grid-template-columns: repeat(8, 1fr);
