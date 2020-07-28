@@ -6,7 +6,7 @@
     <title>Dáma</title>
     <script src="script.js" type="text/javascript">
     </script>
-    
+
   </head>
 
   <body>
@@ -37,6 +37,18 @@
             <button type="button" name="generator" onclick="generuj()">Vygeneruj herní pole</button>
           </form>
           <h2>Kdo je teď na tahu a další info</h2>
+          <ul>
+            <li>Protože se hra jmenuje dáma, tak v této verzi není dáma vůbec zavedena: Vyhrává hráč, kterému zůstane nejvíc kamenů v momentě, když už jeden z hráčů nemůže provést žádný tah</li>
+            <li>V této variantě začíná černý hráč, protože jsem prohodil barvy a jsem líný to předělávat</li>
+            <form>
+              <input type="radio" id="hrac1" name="hrac" value="1">
+              <label for="hrac1">Hráč1-černý</label><br>
+              <input type="radio" id="hrac2" name="hrac" value="2">
+              <label for="hrac2">Hráč2-bílý</label><br>
+              <input type="radio" id="other" name="hrac" value="3" >
+              <label for="other">Jiná možnost snad není</label>
+            </form>
+          </ul>
 <button type="button" name="tahovac" onclick="endTurn()"> Konec tahu</button>
 <button type="button" name="unselect" onclick="unselect()">Zruš výběr políčka</button>
         </header>

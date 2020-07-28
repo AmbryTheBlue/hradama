@@ -1,6 +1,11 @@
 var glo_x = 0;
 var glo_y = 0;
 var pole = [];
+
+var selected = "";
+var player = 1;
+var last_move = "";
+
 function generuj(){
   document.getElementById('sachovnice').innerHTML = "";
   var x = Number(document.getElementById('sirka').value);
@@ -41,18 +46,18 @@ function generuj(){
     for (var j = 1; j < y+1; j++) {
       if (i%2==0) {
         if (j%2==0) {
-          text = '<div class="tile black" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +' / ' + (i+1) + ';grid-row:' + j +' / ' + (j+1) + ';" > <p>x'+ (i-1) +'&nbsp;y'+(j-1)+'</p><p class="kamen cerny"></p><p class="kamen bily"></p></div>';
+          text = '<div id="x'+ (i-1) +'y'+(j-1)+'" class="tile black" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +' / ' + (i+1) + ';grid-row:' + j +' / ' + (j+1) + ';" > <p>x'+ (i-1) +'&nbsp;y'+(j-1)+'</p><p class="kamen cerny"></p><p class="kamen bily"></p></div>';
         }
         else {
-          text = '<div class="tile white" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +' / ' + (i+1) + ';grid-row:' + j +' / ' + (j+1) + ';" ><p>x'+ (i-1) +'&nbsp;y'+(j-1)+'</p><p class="kamen cerny"></p><p class="kamen bily"></p></div>';
+          text = '<div id="x'+ (i-1) +'y'+(j-1)+'" class="tile white" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +' / ' + (i+1) + ';grid-row:' + j +' / ' + (j+1) + ';" ><p>x'+ (i-1) +'&nbsp;y'+(j-1)+'</p><p class="kamen cerny"></p><p class="kamen bily"></p></div>';
         }
       }
       else {
         if (j%2==0) {
-          text = '<div class="tile white" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +'/' + (i+1) + ';grid-row:' + j +'/' + (j+1) + ';"><p>x'+ (i-1) +'&nbsp;y'+(j-1)+'</p><p class="kamen cerny"></p><p class="kamen bily"></p></div>';
+          text = '<div id="x'+ (i-1) +'y'+(j-1)+'" class="tile white" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +'/' + (i+1) + ';grid-row:' + j +'/' + (j+1) + ';"><p>x'+ (i-1) +'&nbsp;y'+(j-1)+'</p><p class="kamen cerny"></p><p class="kamen bily"></p></div>';
         }
         else {
-          text = '<div class="tile black" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +'/' + (i+1) + ';grid-row:' + j +'/' + (j+1) + ';"><p>x'+ (i-1) +'&nbsp;y'+(j-1)+'</p><p class="kamen cerny"></p><p class="kamen bily"></p></div>';
+          text = '<div id="x'+ (i-1) +'y'+(j-1)+'" class="tile black" onclick="zmacknuto('+i+','+j+')" style="grid-column:' + i +'/' + (i+1) + ';grid-row:' + j +'/' + (j+1) + ';"><p>x'+ (i-1) +'&nbsp;y'+(j-1)+'</p><p class="kamen cerny"></p><p class="kamen bily"></p></div>';
         }
       }
         document.getElementById('sachovnice').innerHTML = document.getElementById('sachovnice').innerHTML + text;
@@ -99,10 +104,10 @@ for (var i = y-1 ; i > y-v-1; i--) {
   }
 }
 console.log(pole);
+zobrazNaSachovnici();
 }
 
-var selected = "";
-var player = 1;
+
 function zmacknuto(k_x,k_y){
  //pozor v promenne pole je pole[y][x]
  k_x = k_x-1;
@@ -114,7 +119,7 @@ function zmacknuto(k_x,k_y){
      console.log("Na tomto poli máš kámen, klikni někam jinam, aby jsi s ním pohnul!");
    }
    else {
-     selected="";
+     unselect();
      console.log("Na tomto poli nemáš kámen. Výběr zrušen!");
    }
  }
@@ -128,10 +133,16 @@ function zmacknuto(k_x,k_y){
      //posunutí o jedno pole
      if (k_y==s_y+1&&(k_x==s_x+1||k_x==s_x-1 )) {
       if (pole[k_y][k_x]==0) {
-        console.log("Legitimní tah, bude proveden!");
-        pole[k_y][k_x] = 1;
-        pole[s_y][s_x] = 0;
-        selected ="";
+        if (last_move=="") {
+          console.log("Legitimní tah, bude proveden!");
+          pole[k_y][k_x] = 1;
+          pole[s_y][s_x] = 0;
+          unselect();
+          endTurn();
+        }
+        else {
+          console.log("Po skoku nejde provést posun!");
+        }
       }
       else {
         console.log("Na poli již leží kámen, nemůžeš se na něj přesunout!");
@@ -145,7 +156,9 @@ function zmacknuto(k_x,k_y){
            pole[s_y+1][s_x+1] = 0;
            pole[s_y+2][s_x+2] = 1;
            pole[s_y][s_x] = 0;
-           selected ="";
+           unselect();
+           last_move = "skok";
+           selected = "x" + k_x.toString() + "y" + k_y.toString();
          }
          else {
            console.log("Nemůžeš přeskočit prázdné pole nebo svůj kámen!");
@@ -157,7 +170,9 @@ function zmacknuto(k_x,k_y){
            pole[s_y+1][s_x-1] = 0;
            pole[s_y+2][s_x-2] = 1;
            pole[s_y][s_x] = 0;
-           selected ="";
+           unselect();
+           last_move = "skok";
+           selected = "x" + k_x.toString() + "y" + k_y.toString();
          }
          else {
            console.log("Nemůžeš přeskočit prázdné pole nebo svůj kámen!");
@@ -176,10 +191,17 @@ function zmacknuto(k_x,k_y){
      //posunutí o jedno pole
      if (k_y==s_y-1&&(k_x==s_x+1||k_x==s_x-1 )) {
       if (pole[k_y][k_x]==0) {
-        console.log("Legitimní tah, bude proveden!");
-        pole[k_y][k_x] = 2;
-        pole[s_y][s_x] = 0;
-        selected ="";
+        if (last_move=="") {
+          console.log("Legitimní tah, bude proveden!");
+          pole[k_y][k_x] = 2;
+          pole[s_y][s_x] = 0;
+          unselect();
+          endTurn();
+        }
+        else {
+          console.log("Po skoku nejde provést posun!");
+        }
+
       }
       else {
         console.log("Na poli již leží kámen, nemůžeš se na něj přesunout!");
@@ -193,7 +215,9 @@ function zmacknuto(k_x,k_y){
            pole[s_y-1][s_x+1] = 0;
            pole[s_y-2][s_x+2] = 2;
            pole[s_y][s_x] = 0;
-           selected ="";
+           unselect();
+           last_move = "skok";
+           selected = "x" + k_x.toString() + "y" + k_y.toString();
          }
          else {
            console.log("Nemůžeš přeskočit prázdné pole nebo svůj kámen!");
@@ -205,7 +229,9 @@ function zmacknuto(k_x,k_y){
            pole[s_y-1][s_x-1] = 0;
            pole[s_y-2][s_x-2] = 2;
            pole[s_y][s_x] = 0;
-           selected ="";
+           unselect();
+           last_move = "skok";
+           selected = "x" + k_x.toString() + "y" + k_y.toString();
          }
          else {
            console.log("Nemůžeš přeskočit prázdné pole nebo svůj kámen!");
@@ -224,7 +250,7 @@ function zmacknuto(k_x,k_y){
    console.log("Aktuální stav hry!");
    console.log(pole);
  }
-
+   zobrazNaSachovnici();
 }
 
 function endTurn() {
@@ -237,9 +263,44 @@ function endTurn() {
     player = 1;
     console.log("Na tahu je hráč 1");
   }
-  selected = "";
+  unselect();
+  last_move = "";
 }
 
 function unselect(){
+  if(selected!=""){
+    var x = selected.split("y")[0].substring(1);
+    var y = selected.split("y")[1];
+    if((x%2==0&&y%2==0)||(x%2==1&&y%2==1)){
+      document.getElementById(selected).style.backgroundColor = "black";
+    }
+  }
   selected = "";
+}
+
+function zobrazNaSachovnici(){
+  if(selected!=""){
+    document.getElementById(selected).style.backgroundColor = "red";
+  }
+  for (var i = 0; i < pole.length; i++) {
+    for (var j = 0; j < pole[i].length; j++) {
+      var akt = "x"+j+"y"+i;
+      var deti = document.getElementById(akt).children;
+      if (pole[i][j]==0) {
+        deti[1].style.visibility = "hidden";
+        deti[2].style.visibility = "hidden";
+      }
+      else if (pole[i][j]==1) {
+        deti[1].style.visibility = "visible";
+        deti[2].style.visibility = "hidden";
+      }
+      else if (pole[i][j]==2) {
+        deti[1].style.visibility = "hidden";
+        deti[2].style.visibility = "visible";
+      }
+      else {
+        console.log("Kritická chyba vnitřních systémů zobrazení kamenů!");
+      }
+    }
+  }
 }
