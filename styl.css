@@ -44,3 +44,11 @@
   background-color: white;
   z-index: 3;
 }
+#hrac1{
+  background-color: gray;
+  border: 7px solid red;
+}
+#hrac2{
+  background-color: white;
+  border: 7px solid white;
+}

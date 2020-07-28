@@ -256,10 +256,14 @@ function zmacknuto(k_x,k_y){
 function endTurn() {
   console.log("Tah ukončen!");
   if (player==1) {
+    document.getElementById('hrac1').style.border = "7px solid white";
+    document.getElementById('hrac2').style.border = "7px solid red";
     player = 2;
     console.log("Na tahu je hráč 2");
   }
   else {
+    document.getElementById('hrac1').style.border = "7px solid red";
+    document.getElementById('hrac2').style.border = "7px solid white";
     player = 1;
     console.log("Na tahu je hráč 1");
   }
