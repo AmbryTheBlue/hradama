@@ -17,7 +17,7 @@ function generuj(){
   var sach_size_y = tile_size*y;
   document.head.removeChild(document.head.childNodes[document.head.childNodes.length-1]);
   var style = document.createElement('style');
-  var muj_text = '#sachovnice {display: grid; grid-template-columns: repeat('+ x +', 1fr);grid-template-rows: repeat('+ y +', 1fr);  height: ' + sach_size_y + 'px;  width: '+sach_size_x+'px;} .tile { width: ' + tile_size.toString() + 'px; height: ' + tile_size.toString() +'px; border: 2px solid blue; text-align: center; vertical-align: middle;} .kamen{ border-radius: 100%;  border: 1px solid blue; width: ' + kamen_size.toString() + 'px;  height: ' + kamen_size.toString() + 'px;}';
+  var muj_text = '#sachovnice {margin-bottom:'+ (glo_y*2*2).toString() + 'px; display: grid; grid-template-columns: repeat('+ x +', 1fr);grid-template-rows: repeat('+ y +', 1fr);  height: ' + sach_size_y + 'px;  width: '+sach_size_x+'px;} .tile { width: ' + tile_size.toString() + 'px; height: ' + tile_size.toString() +'px; border: 2px solid blue;text-align: center; vertical-align: middle;} .kamen{ border-radius: 100%;  border: 1px solid blue; width: ' + kamen_size.toString() + 'px;  height: ' + kamen_size.toString() + 'px;}';
   muj_text = muj_text + `
   .cerny{
    position: relative;
